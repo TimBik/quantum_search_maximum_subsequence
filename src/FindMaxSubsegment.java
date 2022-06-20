@@ -1,52 +1,82 @@
 import java.util.Random;
 
 public class FindMaxSubsegment {
-    private static Correct[] data;
-    private static int logLengthData;
+    private final Correct[] data;
 
-    public static Segment findMaxSubsegment(Correct[] mas) {
-        data = mas;
-        logLengthData = (int) (Math.log(data.length) + 1);
-        if (findСertainLengthSegment(1) == null) {
-            return null;
-        }
-        int l = 1;
-        int r = data.length;
-        while (l + 1 < r) {
-            int d = (l + r) / 2;
-            Segment segment = findСertainLengthSegment(d);
-            if (segment != null) {
-                l = d;
-            } else {
-                r = l;
-            }
-        }
-        return findСertainLengthSegment(l);
+    FindMaxSubsegment(Correct[] data) {
+        this.data = data;
     }
 
-    private static Segment findСertainLengthSegment(int d) {
+    public int[] findMaxSubsegment() {
+        int maxAns = 0;
+        int[] maxSegment = null;
+        int t = 10;
+        for (int j = 0; j < t; j++) {
+            int l = 0;
+            int r = data.length;
+            int u = 1;
+            int[] nowMaxSegment = null;
+            while (l + 1 < r) {
+                int d = (l + r) / 2;
+                int[] segment = findСertainLengthSegment(d);
+                for (int i = 0; i < u - 1; i++) {
+                    if (segment != null) break;
+                    segment = findСertainLengthSegment(d);
+                }
+                if (segment != null) {
+                    l = d;
+                    nowMaxSegment = segment;
+                } else {
+                    r = d;
+                }
+                u++;
+            }
+            if (maxAns < l) {
+                maxAns = l;
+                maxSegment = nowMaxSegment;
+            }
+        }
+        return maxSegment;
+    }
+
+    private int[] findСertainLengthSegment(int d) {
         Random random = new Random();
-        //с оптимизацией Amplitude Amplification
+        //с квантовой оптимизацией Amplitude Amplification
         //t должен сократится до sqrt(3 * data.length / d)
-        int t = 3 * data.length / d;
+        //сейчас же высока вероятность не найти элемент
+        int t = (int) Math.sqrt((double) 3 * data.length / d + 1);
+        int u = 1;
         for (int i = 0; i < t; i++) {
             int randIndex = random.nextInt(0, data.length);
             if (data[randIndex].isCorrect() == 0) {
-                int l = findLeftSuitableWithBorder(randIndex, d);
-                int r = findRightSuitableWithBorder(randIndex, d - randIndex + l);
-                if (r - l >= d) {
-                    return new Segment(l, r + 1);
+                for (int j = 0; j < u; j++) {
+                    int l = findLeftSuitableWithBorder(randIndex, d) + 1;
+                    int r = findRightSuitableWithBorder(randIndex, d - randIndex + l - 1) - 1;
+                    if (r - l + 1 >= d) {
+                        return new int[]{l, r + 1};
+                    }
                 }
+                u++;
             }
+
         }
         return null;
     }
 
-    private static int findRightSuitableWithBorder(int ind, int d) {
+    public int findRightSuitableWithBorder(int ind, int d) {
         int borderLength = 1;
+        if (ind == data.length - 1) {
+            return ind + 1;
+        }
         int correct = FindCorrectOnSegmentUseGrover(ind, ind + borderLength + 1);
         while (correct == -1) {
-            borderLength *= 2;
+            if (borderLength >= d) {
+                return ind + borderLength + 1;
+            }
+            borderLength = Math.min(borderLength * 2, d);
+            if (ind + borderLength + 1 > data.length) {
+                return data.length;
+            }
             correct = FindCorrectOnSegmentUseGrover(ind, ind + borderLength + 1);
         }
         int l = ind + borderLength / 2;
@@ -65,10 +95,10 @@ public class FindMaxSubsegment {
         return r;
     }
 
-    private static int FindCorrectOnSegmentUseGrover(int l, int r) {
+    private int FindCorrectOnSegmentUseGrover(int l, int r) {
         //с оптимизацией
         //any должен сократится до O(1)
-        int any = logLengthData;
+        int any = 100;
         for (int i = 0; i < any; i++) {
             int id = GroverAlgorithm.FindAnyCorrectIndex(data, l, r);
             if (data[id].isCorrect() == 1) {
@@ -78,11 +108,18 @@ public class FindMaxSubsegment {
         return -1;
     }
 
-    private static int findLeftSuitableWithBorder(int ind, int d) {
+    public int findLeftSuitableWithBorder(int ind, int d) {
         int borderLength = 1;
+        if (ind == 0) return -1;
         int correct = FindCorrectOnSegmentUseGrover(ind - borderLength, ind);
         while (correct == -1) {
-            borderLength *= 2;
+            if (borderLength + 1 >= d) {
+                return ind - borderLength - 1;
+            }
+            borderLength = Math.min(borderLength * 2, d);
+            if (ind - borderLength < 0) {
+                return -1;
+            }
             correct = FindCorrectOnSegmentUseGrover(ind - borderLength, ind);
         }
         int l = correct;
@@ -102,21 +139,22 @@ public class FindMaxSubsegment {
     }
 }
 
-//Что то вроде Гровера
+// Алгоритм Гровера
+// однако вероятность ошибки выше
+// для уменьшения слдеуюет использовать
+// квантовый компютер
 class GroverAlgorithm {
     static int FindAnyCorrectIndex(Correct[] corrects, int lId, int rId) {
-        return 0;
-    }
-
-}
-
-class Segment {
-    int l;
-    int r;
-
-    public Segment(int l, int r) {
-        this.l = l;
-        this.r = r;
+        Random random = new Random();
+        int sqrtN = (int) Math.sqrt(rId - lId + 1);
+        int rand = -1;
+        for (int i = 0; i < sqrtN; i++) {
+            rand = random.nextInt(lId, rId);
+            if (corrects[rand].isCorrect() == 1) {
+                return rand;
+            }
+        }
+        return rand;
     }
 }
 
