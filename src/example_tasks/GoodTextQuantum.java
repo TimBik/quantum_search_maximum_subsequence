@@ -1,9 +1,9 @@
 package example_tasks;
 
-import quantum_search_submax_lib.FindLeftSuitableWithBorder;
-import quantum_search_submax_lib.FindMaxSubsegment;
-import quantum_search_submax_lib.FindRightSuitableWithBorder;
-import quantum_search_submax_lib.Relevant;
+import quantum_search_submax_lib.alg.FindLeftSuitableWithBorder;
+import quantum_search_submax_lib.alg.FindMaxSubsegment;
+import quantum_search_submax_lib.alg.FindRightSuitableWithBorder;
+import quantum_search_submax_lib.util.Relevant;
 
 import java.util.Arrays;
 import java.util.TreeSet;
@@ -13,7 +13,7 @@ public class GoodTextQuantum {
     static String[] keyWords;
     static TreeSet<String> keyWordsBinaryTree;
 
-    static CheckKeyWord[] checkKeyWords;
+    static CheckKeyWord checkKeyWords;
     static int maxDistance;
     static int startIndexKeyWord;
     static int endIndexKeyWord;
@@ -53,10 +53,7 @@ public class GoodTextQuantum {
     private static void preprocessing() {
         keyWordsBinaryTree = new TreeSet<>();
         keyWordsBinaryTree.addAll(Arrays.asList(keyWords));
-        checkKeyWords = new CheckKeyWord[allWords.length];
-        for (int i = 0; i < allWords.length; i++) {
-            checkKeyWords[i] = new CheckKeyWord(i, allWords, keyWordsBinaryTree);
-        }
+        checkKeyWords = new CheckKeyWord(allWords, keyWordsBinaryTree);
     }
 
     private static void readData() {
@@ -68,20 +65,22 @@ public class GoodTextQuantum {
 
 
 class CheckKeyWord implements Relevant {
-    int id;
     String[] allWords;
 
     TreeSet<String> keyWordsBinaryTree;
 
-    CheckKeyWord(int id, String[] allWords, TreeSet<String> keyWordsBinaryTree) {
-        this.id = id;
+    CheckKeyWord(String[] allWords, TreeSet<String> keyWordsBinaryTree) {
         this.allWords = allWords;
         this.keyWordsBinaryTree = keyWordsBinaryTree;
     }
 
     @Override
-    public boolean isRelevant() {
-        if (keyWordsBinaryTree.contains(allWords[id])) return true;
-        return false;
+    public boolean isRelevant(int id) {
+        return keyWordsBinaryTree.contains(allWords[id]);
+    }
+
+    @Override
+    public int size() {
+        return allWords.length;
     }
 }

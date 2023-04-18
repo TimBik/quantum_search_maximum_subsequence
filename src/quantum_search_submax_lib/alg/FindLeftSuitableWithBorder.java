@@ -1,8 +1,12 @@
-package quantum_search_submax_lib;
+package quantum_search_submax_lib.alg;
+
+import quantum_search_submax_lib.util.ConvertRelevantToCorrect;
+import quantum_search_submax_lib.util.Correct;
+import quantum_search_submax_lib.util.Relevant;
 
 public class FindLeftSuitableWithBorder {
-    public int findLeftSuitableWithBorder(Relevant[] relevantData, int ind, int d) {
-        Correct[] data = new ConvererRelevantToCorrect().convertToCorrect(relevantData);
+
+    public int findLeftSuitableWithBorder(Correct data, int ind, int d) {
         int borderLength = 1;
         if (ind == 0) return -1;
         FindCorrectOnSegmentUseGrover findSegment = new FindCorrectOnSegmentUseGrover();
@@ -31,5 +35,11 @@ public class FindLeftSuitableWithBorder {
             }
         }
         return l;
+
+    }
+
+    public int findLeftSuitableWithBorder(Relevant relevantData, int ind, int d) {
+        Correct data = ConvertRelevantToCorrect.convertToCorrect(relevantData);
+        return findLeftSuitableWithBorder(data, ind, d);
     }
 }
