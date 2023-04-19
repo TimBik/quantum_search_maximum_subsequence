@@ -1,7 +1,7 @@
 package example_tasks;
 
-import quantum_search_submax_lib.FindMaxSubsegment;
-import quantum_search_submax_lib.Relevant;
+import quantum_search_submax_lib.alg.FindMaxSubsegment;
+import quantum_search_submax_lib.util.Relevant;
 
 public class CommonStringQuantum {
     static int m;
@@ -11,7 +11,7 @@ public class CommonStringQuantum {
 
     static String maxCommonString;
 
-    static SameCharacters[] sameCharacters;
+    static SameCharacters sameCharacters;
 
     public static void main(String[] args) {
         readData();
@@ -44,34 +44,33 @@ public class CommonStringQuantum {
         for (int i = 1; i < allWords.length; i++) {
             m = Math.min(allWords[i].length(), m);
         }
-        sameCharacters = new SameCharacters[m];
-        for (int i = 0; i < m; i++) {
-            sameCharacters[i] = new SameCharacters(i, allWords);
-        }
-
+        sameCharacters = new SameCharacters(allWords);
     }
 
     private static void readData() {
-        allWords = new String[]{"111111", "11111122222", "11111133333", "112111", "211111232","abs111ser"};
+        allWords = new String[]{"111111", "11111122222", "11111133333", "112111", "211111232", "abs111ser"};
     }
 }
 
 class SameCharacters implements Relevant {
-    int id;
     String[] allWords;
 
-    SameCharacters(int id, String[] allWords) {
-        this.id = id;
+    SameCharacters(String[] allWords) {
         this.allWords = allWords;
     }
 
     @Override
-    public boolean isRelevant() {
+    public boolean isRelevant(int id) {
         for (int i = 1; i < allWords.length; i++) {
             if (allWords[0].charAt(id) != allWords[i].charAt(id)) {
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public int size() {
+        return allWords.length;
     }
 }
