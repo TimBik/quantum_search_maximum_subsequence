@@ -1,4 +1,7 @@
-import java.util.TreeMap;
+package example_tasks;
+
+import quantum_search_submax_lib.FindMaxSubsegment;
+import quantum_search_submax_lib.Relevant;
 
 public class CommonStringQuantum {
     static int m;
@@ -28,8 +31,8 @@ public class CommonStringQuantum {
     }
 
     private static void findMaxCommonString() {
-        FindMaxSubsegment findMaxSubsegment = new FindMaxSubsegment(sameCharacters);
-        int[] lr = findMaxSubsegment.findMaxSubsegment();
+        FindMaxSubsegment findMaxSubsegment = new FindMaxSubsegment();
+        int[] lr = findMaxSubsegment.findMaxSubsegment(sameCharacters);
         lMaxDistance = lr[0];
         maxDistance = lr[1] - lr[0];
         maxCommonString = allWords[0].substring(lr[0], lr[1]);
@@ -53,7 +56,7 @@ public class CommonStringQuantum {
     }
 }
 
-class SameCharacters implements Correct {
+class SameCharacters implements Relevant {
     int id;
     String[] allWords;
 
@@ -63,12 +66,12 @@ class SameCharacters implements Correct {
     }
 
     @Override
-    public int isCorrect() {
+    public boolean isRelevant() {
         for (int i = 1; i < allWords.length; i++) {
             if (allWords[0].charAt(id) != allWords[i].charAt(id)) {
-                return 1;
+                return true;
             }
         }
-        return 0;
+        return false;
     }
 }

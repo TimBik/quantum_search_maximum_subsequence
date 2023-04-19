@@ -1,3 +1,10 @@
+package example_tasks;
+
+import quantum_search_submax_lib.FindLeftSuitableWithBorder;
+import quantum_search_submax_lib.FindMaxSubsegment;
+import quantum_search_submax_lib.FindRightSuitableWithBorder;
+import quantum_search_submax_lib.Relevant;
+
 import java.util.Arrays;
 import java.util.TreeSet;
 
@@ -34,11 +41,13 @@ public class GoodTextQuantum {
     }
 
     private static void findDistances() {
-        FindMaxSubsegment findMaxSubsegment = new FindMaxSubsegment(checkKeyWords);
-        int[] lr = findMaxSubsegment.findMaxSubsegment();
+        FindMaxSubsegment findMaxSubsegment = new FindMaxSubsegment();
+        FindLeftSuitableWithBorder findLeft = new FindLeftSuitableWithBorder();
+        FindRightSuitableWithBorder findRight = new FindRightSuitableWithBorder();
+        int[] lr = findMaxSubsegment.findMaxSubsegment(checkKeyWords);
         maxDistance = lr[1] - lr[0];
-        endIndexKeyWord = findMaxSubsegment.findLeftSuitableWithBorder(allWords.length, allWords.length);
-        startIndexKeyWord = findMaxSubsegment.findRightSuitableWithBorder(0, allWords.length);
+        endIndexKeyWord = findLeft.findLeftSuitableWithBorder(checkKeyWords, allWords.length, allWords.length);
+        startIndexKeyWord = findRight.findRightSuitableWithBorder(checkKeyWords, 0, allWords.length);
     }
 
     private static void preprocessing() {
@@ -58,7 +67,7 @@ public class GoodTextQuantum {
 }
 
 
-class CheckKeyWord implements Correct {
+class CheckKeyWord implements Relevant {
     int id;
     String[] allWords;
 
@@ -71,8 +80,8 @@ class CheckKeyWord implements Correct {
     }
 
     @Override
-    public int isCorrect() {
-        if (keyWordsBinaryTree.contains(allWords[id])) return 1;
-        return 0;
+    public boolean isRelevant() {
+        if (keyWordsBinaryTree.contains(allWords[id])) return true;
+        return false;
     }
 }

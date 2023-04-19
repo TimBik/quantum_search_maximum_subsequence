@@ -1,3 +1,5 @@
+package example_tasks;
+
 public class CommonString {
 
     static int m;
