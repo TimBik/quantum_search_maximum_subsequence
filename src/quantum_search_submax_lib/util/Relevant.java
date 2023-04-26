@@ -1,14 +1,20 @@
 package quantum_search_submax_lib.util;
 
 /**
- * The instances of classes that implement this interface can be converted to 0 or 1
+ * Экземпляры классов, реализующих этот интерфейс, могут быть преобразованы в логичнский тип.
  */
 public interface Relevant {
     /**
-     * Returns boolean value depending on whether an instance of the class is suitable or not
+     * Возвращает значение типа boolean в зависимости от того, подходит ли экземпляр класса или нет.
+     *
+     * @param id идентификатор экземпляра
+     * @return true, если экземпляр подходит, false в противном случае
      */
-
     boolean isRelevant(int id);
-
-    int size();
+    /**
+     * Возвращает идентификатор последнего элементов.
+     *
+     * @return Идентификатор последнего элементов.
+     */
+    int lastIndex();
 }

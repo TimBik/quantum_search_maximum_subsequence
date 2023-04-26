@@ -1,10 +1,20 @@
 package quantum_search_submax_lib.util;
 
 /**
- * The instances of classes that implement this interface can be converted to a logical type
+ * Экземпляры классов, реализующих этот интерфейс, могут быть преобразованы в логичнский тип.
  */
 public interface Correct {
+    /**
+     * Проверяет, корректен ли элемент с заданным идентификатором.
+     *
+     * @param id Идентификатор элемента.
+     * @return 1, если элемент корректен, 0 - если нет.
+     */
     int isCorrect(int id);
-
-    int size();
+    /**
+     * Возвращает идентификатор последнего элементов.
+     *
+     * @return Идентификатор последнего элементов.
+     */
+    int lastIndex();
 }

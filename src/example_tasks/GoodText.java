@@ -2,16 +2,23 @@ package example_tasks;
 
 import java.util.Arrays;
 import java.util.TreeSet;
-
+/**
+ * Класс GoodText предназначен для проверки текста на соответствие определенному стандарту.
+ * Определяется максимальное расстояние между ключевыми словами и сравнивается с пороговым значением t,
+ * чтобы определить, является ли текст хорошим, почти хорошим или плохим.
+ */
 public class GoodText {
-    static String[] allWords;
-    static String[] keyWords;
-    static TreeSet<String> keyWordsBinaryTree;
-    static int maxDistance;
-    static int startIndexKeyWord;
-    static int endIndexKeyWord;
-    static int t;
+    static String[] allWords; // массив всех слов в тексте
+    static String[] keyWords; // массив ключевых слов
+    static TreeSet<String> keyWordsBinaryTree; // бинарное дерево, содержащее ключевые слова
+    static int maxDistance; // максимальное расстояние между ключевыми словами
+    static int startIndexKeyWord; // индекс начала первого ключевого слова
+    static int endIndexKeyWord; // индекс конца последнего ключевого слова
+    static int t; // пороговое значение для классификации текста
 
+    /**
+     * Основной метод класса, выполняющий чтение данных, предобработку, нахождение расстояний между ключевыми словами и вывод результата
+     */
     public static void main(String[] args) {
         readData();
         preprocessing();
@@ -19,6 +26,9 @@ public class GoodText {
         printingResult();
     }
 
+    /**
+     * Метод, выводящий результат классификации текста
+     */
     private static void printingResult() {
         int distances = endIndexKeyWord - startIndexKeyWord + 1 - keyWords.length;
         double result = maxDistance - (double) distances / (keyWords.length - 1);
@@ -33,6 +43,9 @@ public class GoodText {
         }
     }
 
+    /**
+     * Метод, находящий расстояния между ключевыми словами и запоминающий индексы начала и конца последнего ключевого слова
+     */
     private static void findDistances() {
         int distance = Integer.MIN_VALUE;
         startIndexKeyWord = -1;
@@ -52,11 +65,17 @@ public class GoodText {
         }
     }
 
+    /**
+     * Метод, выполняющий предобработку данных, инициализирующий бинарное дерево ключевых слов
+     */
     private static void preprocessing() {
         keyWordsBinaryTree = new TreeSet<>();
         keyWordsBinaryTree.addAll(Arrays.asList(keyWords));
     }
 
+    /**
+     * Метод, выполняющий чтение данных
+     */
     private static void readData() {
         allWords = new String[]{"way", "diploma", "word", "dance", "finding", "max", "pain", "create", "love", "is", "simple", "save"};
         keyWords = new String[]{"word", "create", "save"};
