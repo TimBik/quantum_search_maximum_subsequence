@@ -29,8 +29,6 @@ public class CommonStringQuantum {
 
     /**
      * Главный метод программы.
-     *
-     * @param args аргументы командной строки
      */
     private static void printingResult() {
         System.out.println("t is: " + maxDistance); // вывод длины максимальной общей строки
@@ -113,7 +111,7 @@ class SameCharacters implements Relevant {
      * @return количество строк в массиве allWords.
      */
     @Override
-    public int lastIndex() {
+    public int numberOfLastElement() {
         return allWords.length;
     }
 }

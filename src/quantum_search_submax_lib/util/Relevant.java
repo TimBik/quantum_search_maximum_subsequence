@@ -12,9 +12,9 @@ public interface Relevant {
      */
     boolean isRelevant(int id);
     /**
-     * Возвращает идентификатор последнего элементов.
+     * Возвращает порядковый номер последнего элементов.
      *
-     * @return Идентификатор последнего элементов.
+     * @return Порядковый номер последнего элементов.
      */
-    int lastIndex();
+    int numberOfLastElement();
 }

@@ -120,7 +120,7 @@ class CheckKeyWord implements Relevant {
      * @return  индекс последнего слова в массиве
      */
     @Override
-    public int lastIndex() {
+    public int numberOfLastElement() {
         return allWords.length;
     }
 }

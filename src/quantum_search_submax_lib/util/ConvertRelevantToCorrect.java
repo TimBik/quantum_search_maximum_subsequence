@@ -17,8 +17,8 @@ public class ConvertRelevantToCorrect {
             }
 
             @Override
-            public int lastIndex() {
-                return relevantData.lastIndex();
+            public int numberOfLastElement() {
+                return relevantData.numberOfLastElement();
             }
         };
     }

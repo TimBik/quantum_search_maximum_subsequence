@@ -20,7 +20,7 @@ public class FindMaxSubsegment {
         int t = 10;
         for (int j = 0; j < t; j++) {
             int l = 0;
-            int r = data.lastIndex();
+            int r = data.numberOfLastElement();
             int u = 1;
             int[] nowMaxSegment = null;
             while (l + 1 < r) {
@@ -66,12 +66,12 @@ public class FindMaxSubsegment {
         //с квантовой оптимизацией Amplitude Amplification
         //t доkлжен сократится до sqrt(3 * data.length / d)
         //сейчас же высока вероятность не найти элемент
-        int t = (int) Math.sqrt((double) 3 * data.lastIndex() / d + 1);
+        int t = (int) Math.sqrt((double) 3 * data.numberOfLastElement() / d + 1);
         int u = 1;
         FindLeftSuitableWithBorder findLeft = new FindLeftSuitableWithBorder();
         FindRightSuitableWithBorder findRight = new FindRightSuitableWithBorder();
         for (int i = 0; i < t; i++) {
-            int randIndex = random.nextInt(0, data.lastIndex());
+            int randIndex = random.nextInt(0, data.numberOfLastElement());
             if (data.isCorrect(randIndex) == 0) {
                 for (int j = 0; j < u; j++) {
                     int l = findLeft.findLeftSuitableWithBorder(data, randIndex, d) + 1;
