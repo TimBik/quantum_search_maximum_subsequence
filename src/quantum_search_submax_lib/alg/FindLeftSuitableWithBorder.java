@@ -4,18 +4,18 @@ import quantum_search_submax_lib.util.ConvertRelevantToCorrect;
 import quantum_search_submax_lib.util.Correct;
 import quantum_search_submax_lib.util.Relevant;
 /**
- * Класс FindLeftSuitableWithBorder содержит методы для поиска левой границы
- * подходящего отрезка в массиве data с индексом ind и длиной d
+ * Класс FindLeftSuitableWithBorder содержит методы для поиска ближайшего подходящего элемента
+ * слева от индексом ind, удалённого не более, чем на d
  */
 public class FindLeftSuitableWithBorder {
     /**
-     * Метод findLeftSuitableWithBorder ищет левую границу подходящего отрезка в массиве data
-     * с индексом ind и длиной d, используя алгоритм квантовой оптимизации Grover's algorithm.
+     * Метод findLeftSuitableWithBorder ищет левый ближайший подходящий элемент в массиве data
+     * слева от индекса ind и удалённого не более, чем на d, используя алгоритм квантовой оптимизации Grover's algorithm.
      *
      * @param data массив данных типа Correct, в котором ищется левая граница подходящего отрезка
-     * @param ind индекс в массиве data, с которого начинается поиск левой границы
-     * @param d   длина искомого подходящего отрезка
-     * @return левую границу подходящего отрезка в массиве data с индексом ind и длиной d
+     * @param ind индекс в массиве data, с которого начинается поиск эелемента слева
+     * @param d   длина исследуемого отрезка
+     * @return ближайшего подходящего элемента из отрезка в массиве data от индексом ind и длиной d
      */
     public int findLeftSuitableWithBorder(Correct data, int ind, int d) {
         int borderLength = 1;
