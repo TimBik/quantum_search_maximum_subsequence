@@ -75,7 +75,7 @@ public class FindMaxSubsegment {
             if (data.isCorrect(randIndex) == 0) {
                 for (int j = 0; j < u; j++) {
                     int l = findLeft.findLeftSuitableWithBorder(data, randIndex, d) + 1;
-                    int r = findRight.findRightSuitableWithBorder(data, randIndex, d - randIndex + l - 1) - 1;
+                    int r = findRight.findRightSuitableWithBorder(data, randIndex, d - randIndex + l) - 1;
                     if (r - l + 1 >= d) {
                         return new int[]{l, r + 1};
                     }
