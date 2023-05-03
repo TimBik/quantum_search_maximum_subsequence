@@ -12,7 +12,7 @@ import quantum_search_submax_lib.util.Relevant;
 public class FindRightSuitableWithBorder {
     /**
      * Функция для поиска для поиска ближайшего подходящего элемента
-     *  справа от индексом ind, удалённого не более, чем на d  в объекте класса Correct.
+     * справа от индексом ind, удалённого не более, чем на d  в объекте класса Correct.
      *
      * @param data объект класса Correct, содержащий массив данных и метод isCorrect(int),
      *             который принимает на вход индекс и возвращает 1, если элемент с данным
@@ -24,19 +24,17 @@ public class FindRightSuitableWithBorder {
      */
     public int findRightSuitableWithBorder(Correct data, int ind, int d) {
         int borderLength = 1;
+        d = Math.min(d, data.numberOfLastElement() - ind);
         if (ind >= data.numberOfLastElement() - 1) {
             return data.numberOfLastElement();
         }
         FindCorrectOnSegmentUseGrover findSegment = new FindCorrectOnSegmentUseGrover();
         int correct = findSegment.findCorrectOnSegmentUseGrover(data, ind, ind + borderLength);
         while (correct == -1) {
-            if (borderLength >= d) {
-                return ind + borderLength + 1;
+            if (borderLength >= d || ind + borderLength + 1 == data.numberOfLastElement()) {
+                return ind + borderLength;
             }
-            borderLength = Math.min(borderLength * 2, d);
-            if (ind + borderLength + 1 > data.numberOfLastElement()) {
-                return data.numberOfLastElement();
-            }
+            borderLength = Math.min(Math.min(borderLength * 2, d), data.numberOfLastElement() - ind - 1);
             correct = findSegment.findCorrectOnSegmentUseGrover(data, ind, ind + borderLength);
         }
         int l = ind + borderLength / 2;
@@ -60,10 +58,10 @@ public class FindRightSuitableWithBorder {
      * не более чем d от данного индекса в объекте класса Relevant.
      *
      * @param relevantData объект класса Correct, содержащий массив данных и метод isCorrect(int),
-     *             который принимает на вход индекс и возвращает 1, если элемент с данным
-     *             индексом является правильным, и 0 в противном случае.
-     * @param ind  индекс элемента, от которого ищется правая граница диапазона.
-     * @param d    максимальное расстояние между индексом и правильным элементом в диапазоне.
+     *                     который принимает на вход индекс и возвращает 1, если элемент с данным
+     *                     индексом является правильным, и 0 в противном случае.
+     * @param ind          индекс элемента, от которого ищется правая граница диапазона.
+     * @param d            максимальное расстояние между индексом и правильным элементом в диапазоне.
      * @return индекс лижайшего подходящего элемента на расстоянии не более
      * чем d от данного индекса, или -1, если такая граница не найдена.
      **/
