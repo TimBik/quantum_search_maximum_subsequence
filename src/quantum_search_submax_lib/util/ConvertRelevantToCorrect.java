@@ -1,7 +1,14 @@
 package quantum_search_submax_lib.util;
-
+/**
+ * Этот класс предоставляет статический метод для преобразования объекта, реализующего интерфейс Relevant, в объект, реализующий интерфейс Correct.
+ */
 public class ConvertRelevantToCorrect {
-
+    /**
+     * Преобразует объект, реализующий интерфейс Relevant, в объект, реализующий интерфейс Correct.
+     *
+     * @param relevantData объект, реализующий интерфейс Relevant
+     * @return объект, реализующий интерфейс Correct
+     */
     public static Correct convertToCorrect(Relevant relevantData) {
         return new Correct() {
             @Override
@@ -10,8 +17,8 @@ public class ConvertRelevantToCorrect {
             }
 
             @Override
-            public int size() {
-                return relevantData.size();
+            public int numberOfLastElement() {
+                return relevantData.numberOfLastElement();
             }
         };
     }
